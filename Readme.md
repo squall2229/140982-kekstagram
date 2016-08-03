@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Чечулин Владислав](https://up.htmlacademy.ru/javascript/6/user/140982).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Вейт`.
 
 ---
 
