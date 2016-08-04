@@ -14,7 +14,7 @@ function getMessage(a, b) {
   };
 
   if(Array.isArray(a)) {
-    if(Array.isArray(a) && Array.isArray(b)) {
+    if(Array.isArray(b)) {
 
     var artifactsSquare = 0;
     for (var i = 0; i < a.length && i < b.length ; i++) {                       // Сумма произведений соответствующий аргументов массивов
