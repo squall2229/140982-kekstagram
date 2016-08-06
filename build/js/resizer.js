@@ -126,6 +126,45 @@
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
+
+      // затемненная область
+
+      this._ctx.fillStyle = "rgba(0 ,0 ,0 ,0.8)";
+      this._ctx.fillRect(
+        0,
+        0,
+        this._container.width,
+        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth
+        );
+
+      this._ctx.fillRect(
+        0,
+        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
+        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth,
+        this._container.height - (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 + this._ctx.lineWidth * 1.06
+        );
+
+      this._ctx.fillRect(
+        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth * 1.06,
+         this._resizeConstraint.side + ((this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 0.95),
+         this._container.width,
+         this._container.height
+        )
+
+      this._ctx.fillRect(
+        this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2),
+        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
+        this._container.width,
+        this._resizeConstraint.side + this._ctx.lineWidth * 0.14
+        )
+
+      this._ctx.font = '10px Tahoma';
+      this._ctx.fillStyle = "#FFF";
+      this._ctx.textAlign = "center";
+      this._ctx.textBaseline = 'hanging';
+      var sizeImgTextWidth = this._image.naturalWidth;
+      var sizeImgTextHeight = this._image.naturalHeight;
+      this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
     },
 
     /**
