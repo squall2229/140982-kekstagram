@@ -90,7 +90,7 @@
 
       // Толщина линии.
       this._ctx.lineWidth = 6;
-      /*
+
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
@@ -98,7 +98,7 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-       */
+
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -131,34 +131,19 @@
 
       // затемненная область
 
+      this._ctx.beginPath();
       this._ctx.fillStyle = 'rgba(0 ,0 ,0 ,0.8)';
-      this._ctx.fillRect(
-        0,
-        0,
-        this._container.width,
-        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth
-        );
-
-      this._ctx.fillRect(
-        0,
-        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
-        (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
-        this._container.height
-        );
-
-      this._ctx.fillRect(
-        (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
-        this._resizeConstraint.side + ((this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 0.95),
-        this._container.width,
-        this._container.height
-        )
-
-      this._ctx.fillRect(
-        this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2),
-        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth,
-        this._container.width,
-        this._resizeConstraint.side + this._ctx.lineWidth / 3.039
-        )
+      this._ctx.moveTo(0, 0);
+      this._ctx.lineTo(this._container.width, 0);
+      this._ctx.lineTo(this._container.width, this._container.height);
+      this._ctx.lineTo(0, this._container.height);
+      this._ctx.closePath();
+      this._ctx.moveTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
+      this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
+      this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side);
+      this._ctx.lineTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side) + this._ctx.lineWidth;
+      this._ctx.closePath();
+      this._ctx.fill('evenodd');
 
       this._ctx.font = '10px Tahoma';
       this._ctx.fillStyle = '#FFF';
@@ -169,11 +154,11 @@
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
 
 
-
-      var xArc = (this._container.width - this._resizeConstraint.side) / 2;
-      var yArc = (this._container.height - this._resizeConstraint.side) / 2;
-      var widthAll = this._container.width * 0.75;
-      var heightAll = (this._container.height + this._resizeConstraint.side) / 2 - 6;
+      /*
+      var xArc         = (this._container.width - this._resizeConstraint.side) / 2;
+      var yArc         = (this._container.height - this._resizeConstraint.side) / 2;
+      var widthAll     = this._container.width * 0.75;
+      var heightAll    = (this._container.height + this._resizeConstraint.side) / 2 - 6;
       var roundYellowY = (this._container.height - this._resizeConstraint.side) / 2;
       var roundYellowX = (this._container.width - this._resizeConstraint.side) / 2;
 
@@ -188,9 +173,9 @@
         this._ctx.fillStyle = '#ffe753';
         this._ctx.arc(roundYellowX, yArc, 3, 0, 360);
         this._ctx.fill();
-        yArc = yArc + 10;
-        }
-
+        yArc = yArc + 15;
+      }
+      */
 
     },
 
