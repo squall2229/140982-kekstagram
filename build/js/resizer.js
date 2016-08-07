@@ -88,8 +88,11 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
+
+      /*
       // Толщина линии.
       this._ctx.lineWidth = 6;
+
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
@@ -97,7 +100,7 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
+      */
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -127,45 +130,71 @@
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
 
+
       // затемненная область
 
-      this._ctx.fillStyle = "rgba(0 ,0 ,0 ,0.8)";
-      this._ctx.fillRect(
-        0,
-        0,
-        this._container.width,
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth
-        );
+      this._ctx.beginPath();
+      this._ctx.fillStyle = 'rgba(0 ,0 ,0 ,0.8)';
+      this._ctx.moveTo(0, 0);
+      this._ctx.lineTo(this._container.width, 0);
+      this._ctx.lineTo(this._container.width, this._container.height);
+      this._ctx.lineTo(0, this._container.height);
+      this._ctx.closePath();
+      this._ctx.moveTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
+      this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
+      this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side);
+      this._ctx.lineTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side) + this._ctx.lineWidth;
+      this._ctx.closePath();
+      this._ctx.fill('evenodd');
 
-      this._ctx.fillRect(
-        0,
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
-        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth,
-        this._container.height - (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 + this._ctx.lineWidth * 1.06
-        );
-
-      this._ctx.fillRect(
-        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth * 1.06,
-         this._resizeConstraint.side + ((this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 0.95),
-         this._container.width,
-         this._container.height
-        )
-
-      this._ctx.fillRect(
-        this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2),
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
-        this._container.width,
-        this._resizeConstraint.side + this._ctx.lineWidth * 0.14
-        )
+      // Текст
 
       this._ctx.font = '10px Tahoma';
-      this._ctx.fillStyle = "#FFF";
-      this._ctx.textAlign = "center";
+      this._ctx.fillStyle = '#FFF';
+      this._ctx.textAlign = 'center';
       this._ctx.textBaseline = 'hanging';
       var sizeImgTextWidth = this._image.naturalWidth;
       var sizeImgTextHeight = this._image.naturalHeight;
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
+
+      // Доп задание
+
+      var xArc = (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
+      var yArc = (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
+
+      while(xArc <= (this._container.width + this._resizeConstraint.side) / 2 - 6) {
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.beginPath();
+        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, 3, 0, 360);
+        this._ctx.closePath();
+        this._ctx.fill();
+        this._ctx.beginPath();
+        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2  + this._resizeConstraint.side, 3, 0, 360);
+        this._ctx.closePath();
+
+        this._ctx.fill();
+        xArc = xArc + 13;
+      }
+
+      while(yArc <= (this._container.height + this._resizeConstraint.side) / 2 - 6) {
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.beginPath();
+        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, yArc, 3, 0, 360);
+        this._ctx.closePath();
+        this._ctx.fill();
+
+        this._ctx.beginPath();
+        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth + this._resizeConstraint.side, yArc, 3, 0, 360);
+        this._ctx.closePath();
+
+        this._ctx.fill();
+        yArc = yArc + 13;
+      }
+
+
     },
+
+
 
     /**
      * Включение режима перемещения. Запоминается текущее положение курсора,
