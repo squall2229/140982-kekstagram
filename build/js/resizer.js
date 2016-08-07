@@ -156,9 +156,7 @@
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
 
 
-
   // Доп задание
-
       var xArc = (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
       var yArc = (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
 
