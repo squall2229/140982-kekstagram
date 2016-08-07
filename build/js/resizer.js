@@ -172,16 +172,21 @@
 
       var xArc = (this._container.width - this._resizeConstraint.side) / 2;
       var yArc = (this._container.height - this._resizeConstraint.side) / 2;
-      while(xArc <= this._container.width * 0.75) {
+      var widthAll = this._container.width * 0.75;
+      var heightAll = (this._container.height + this._resizeConstraint.side) / 2 - 6;
+      var roundYellowY = (this._container.height - this._resizeConstraint.side) / 2;
+      var roundYellowX = (this._container.width - this._resizeConstraint.side) / 2;
+
+      while(xArc <= widthAll) {
 
         this._ctx.fillStyle = '#ffe753';
-        this._ctx.arc(xArc, (this._container.height - this._resizeConstraint.side) / 2, 3, 0, 360);
+        this._ctx.arc(xArc, roundYellowY, 3, 0, 360);
         this._ctx.fill();
         xArc = xArc + 15;
       }
-      while(yArc <= (this._container.height + this._resizeConstraint.side) / 2 - 6) {
+      while(yArc <= heightAll) {
         this._ctx.fillStyle = '#ffe753';
-        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2, yArc, 3, 0, 360);
+        this._ctx.arc(roundYellowX, yArc, 3, 0, 360);
         this._ctx.fill();
         yArc = yArc + 10;
         }
