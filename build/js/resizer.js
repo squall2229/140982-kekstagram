@@ -90,6 +90,7 @@
 
       // Толщина линии.
       this._ctx.lineWidth = 6;
+      /*
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
@@ -97,7 +98,7 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
+       */
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -127,45 +128,68 @@
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
 
+
       // затемненная область
 
-      this._ctx.fillStyle = "rgba(0 ,0 ,0 ,0.8)";
+      this._ctx.fillStyle = 'rgba(0 ,0 ,0 ,0.8)';
       this._ctx.fillRect(
         0,
         0,
         this._container.width,
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth
+        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth
         );
 
       this._ctx.fillRect(
         0,
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
-        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth,
-        this._container.height - (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 + this._ctx.lineWidth * 1.06
+        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
+        (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
+        this._container.height
         );
 
       this._ctx.fillRect(
-        (this._container.width - this._resizeConstraint.side - this._ctx.lineWidth / 2) / 2 - this._ctx.lineWidth * 1.06,
-         this._resizeConstraint.side + ((this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 0.95),
-         this._container.width,
-         this._container.height
+        (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth * 1.002,
+        this._resizeConstraint.side + ((this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 0.95),
+        this._container.width,
+        this._container.height
         )
 
       this._ctx.fillRect(
         this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2),
-        (this._container.height - (this._resizeConstraint.side - this._ctx.lineWidth / 2)) / 2 - this._ctx.lineWidth * 1.06,
+        (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth,
         this._container.width,
-        this._resizeConstraint.side + this._ctx.lineWidth * 0.14
+        this._resizeConstraint.side + this._ctx.lineWidth / 3.039
         )
 
       this._ctx.font = '10px Tahoma';
-      this._ctx.fillStyle = "#FFF";
-      this._ctx.textAlign = "center";
+      this._ctx.fillStyle = '#FFF';
+      this._ctx.textAlign = 'center';
       this._ctx.textBaseline = 'hanging';
       var sizeImgTextWidth = this._image.naturalWidth;
       var sizeImgTextHeight = this._image.naturalHeight;
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
+
+
+
+      var xArc = (this._container.width - this._resizeConstraint.side) / 2;
+      var yArc = (this._container.height - this._resizeConstraint.side) / 2;
+      while(xArc <= this._container.width * 0.75) {
+
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.arc(xArc, (this._container.height - this._resizeConstraint.side) / 2, 3, 0, 360);
+        this._ctx.fill();
+        xArc = xArc + 15;
+      }
+      while(yArc <= (this._container.height + this._resizeConstraint.side) / 2 - 6) {
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2, yArc, 3, 0, 360);
+        this._ctx.fill();
+        yArc = yArc + 10;
+        }
+
+
     },
+
+
 
     /**
      * Включение режима перемещения. Запоминается текущее положение курсора,
