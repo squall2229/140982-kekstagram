@@ -88,6 +88,8 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
+
+      /*
       // Толщина линии.
       this._ctx.lineWidth = 6;
 
@@ -98,7 +100,7 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
+      */
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -145,6 +147,8 @@
       this._ctx.closePath();
       this._ctx.fill('evenodd');
 
+      // Текст
+
       this._ctx.font = '10px Tahoma';
       this._ctx.fillStyle = '#FFF';
       this._ctx.textAlign = 'center';
@@ -153,29 +157,40 @@
       var sizeImgTextHeight = this._image.naturalHeight;
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
 
+      // Доп задание
 
-      /*
-      var xArc         = (this._container.width - this._resizeConstraint.side) / 2;
-      var yArc         = (this._container.height - this._resizeConstraint.side) / 2;
-      var widthAll     = this._container.width * 0.75;
-      var heightAll    = (this._container.height + this._resizeConstraint.side) / 2 - 6;
-      var roundYellowY = (this._container.height - this._resizeConstraint.side) / 2;
-      var roundYellowX = (this._container.width - this._resizeConstraint.side) / 2;
+      var xArc = (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
+      var yArc = (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
 
-      while(xArc <= widthAll) {
-
+      while(xArc <= (this._container.width + this._resizeConstraint.side) / 2 - 6) {
         this._ctx.fillStyle = '#ffe753';
-        this._ctx.arc(xArc, roundYellowY, 3, 0, 360);
+        this._ctx.beginPath();
+        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, 3, 0, 360);
+        this._ctx.closePath();
         this._ctx.fill();
-        xArc = xArc + 15;
+        this._ctx.beginPath();
+        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2  + this._resizeConstraint.side, 3, 0, 360);
+        this._ctx.closePath();
+
+        this._ctx.fill();
+        xArc = xArc + 13;
       }
-      while(yArc <= heightAll) {
+
+      while(yArc <= (this._container.height + this._resizeConstraint.side) / 2 - 6) {
         this._ctx.fillStyle = '#ffe753';
-        this._ctx.arc(roundYellowX, yArc, 3, 0, 360);
+        this._ctx.beginPath();
+        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, yArc, 3, 0, 360);
+        this._ctx.closePath();
         this._ctx.fill();
-        yArc = yArc + 15;
+
+        this._ctx.beginPath();
+        this._ctx.arc((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth + this._resizeConstraint.side, yArc, 3, 0, 360);
+        this._ctx.closePath();
+
+        this._ctx.fill();
+        yArc = yArc + 13;
       }
-      */
+
 
     },
 
