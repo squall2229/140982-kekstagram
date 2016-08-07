@@ -1,3 +1,20 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @squall2229
+ Unwatch 1
+  Star 0
+  Fork 1 squall2229/140982-kekstagram
+forked from htmlacademy-javascript/140982-kekstagram
+ Code  Pull requests 0  Pulse  Graphs  Settings
+Branch: module2-task2 Find file Copy path140982-kekstagram/build/js/resizer.js
+8fbd843  2 days ago
+@squall2229 squall2229 последний fix
+2 contributors @squall2229 @keksobot
+RawBlameHistory     388 lines (328 sloc)  15.1 KB
 'use strict';
 
 (function() {
@@ -88,9 +105,10 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
+
+      /*
       // Толщина линии.
       this._ctx.lineWidth = 6;
-      /*
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
@@ -98,7 +116,7 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-       */
+      */
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -147,6 +165,7 @@
 
       // Текст
 
+
       this._ctx.font = '10px Tahoma';
       this._ctx.fillStyle = '#FFF';
       this._ctx.textAlign = 'center';
@@ -155,8 +174,8 @@
       var sizeImgTextHeight = this._image.naturalHeight;
       this._ctx.fillText(String(sizeImgTextWidth) + ' x ' + String(sizeImgTextHeight), this._container.width / 2, 10);
 
+      // Доп задание
 
-  // Доп задание
       var xArc = (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
       var yArc = (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
 
@@ -382,3 +401,5 @@
 
   window.Resizer = Resizer;
 })();
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
