@@ -377,7 +377,7 @@
    * @param {number} y
    * @private
    */
-  var Coordinate = function(x, y) {
+  var Coordinate = function(x, y ) {
     this.x = x;
     this.y = y;
   };
