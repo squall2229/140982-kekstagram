@@ -1,20 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @squall2229
- Unwatch 1
-  Star 0
-  Fork 1 squall2229/140982-kekstagram
-forked from htmlacademy-javascript/140982-kekstagram
- Code  Pull requests 0  Pulse  Graphs  Settings
-Branch: module2-task2 Find file Copy path140982-kekstagram/build/js/resizer.js
-8fbd843  2 days ago
-@squall2229 squall2229 последний fix
-2 contributors @squall2229 @keksobot
-RawBlameHistory     388 lines (328 sloc)  15.1 KB
 'use strict';
 
 (function() {
