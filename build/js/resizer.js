@@ -139,10 +139,10 @@
       this._ctx.lineTo(this._container.width, this._container.height);
       this._ctx.lineTo(0, this._container.height);
       this._ctx.closePath();
-      this._ctx.moveTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
+      this._ctx.moveTo((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
       this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth);
       this._ctx.lineTo(this._resizeConstraint.side + ((this._container.width - this._resizeConstraint.side - this._ctx.lineWidth) / 2), (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side);
-      this._ctx.lineTo((this._container.width -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side) + this._ctx.lineWidth;
+      this._ctx.lineTo((this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, ((this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side) + this._ctx.lineWidth);
       this._ctx.closePath();
       this._ctx.fill('evenodd');
 
@@ -160,16 +160,16 @@
       // Доп задание
 
       var xArc = (this._container.width - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
-      var yArc = (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
+      var yArc = (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth;
 
       while(xArc <= (this._container.width + this._resizeConstraint.side) / 2 - 6) {
         this._ctx.fillStyle = '#ffe753';
         this._ctx.beginPath();
-        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2 - this._ctx.lineWidth, 3, 0, 360);
+        this._ctx.arc(xArc, (this._container.height - this._resizeConstraint.side) / 2 - this._ctx.lineWidth, 3, 0, 360);
         this._ctx.closePath();
         this._ctx.fill();
         this._ctx.beginPath();
-        this._ctx.arc(xArc, (this._container.height -this._resizeConstraint.side) / 2  + this._resizeConstraint.side, 3, 0, 360);
+        this._ctx.arc(xArc, (this._container.height - this._resizeConstraint.side) / 2 + this._resizeConstraint.side, 3, 0, 360);
         this._ctx.closePath();
 
         this._ctx.fill();
