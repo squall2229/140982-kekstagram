@@ -22,7 +22,6 @@
     UPLOADING: 1,
     CUSTOM: 2
   };
-
   /**
    * Регулярное выражение, проверяющее тип загружаемого файла. Составляется
    * из ключей FileType.
@@ -260,6 +259,33 @@
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
+
+  // Валидация формы
+
+  var fieldset = document.querySelector('.upload-resize-controls');
+  var inputSubmit = document.querySelector('.upload-form-controls-fwd');
+  var inputLeft = document.querySelector('#resize-x');
+  var inputTop = document.querySelector('#resize-y');
+  var inputSize = document.querySelector('#resize-size');
+
+  fieldset.addEventListener('input', function(event) {
+
+    if(event.target.tagName.toLowerCase() !== 'input') {
+      return;
+    }
+
+    if(inputLeft.value < 0 ||
+      inputTop.value < 0 ||
+      inputSize.value < 0 ||
+      inputLeft.value + inputSize.value > currentResizer._image.naturalWidth * 10 ||
+      inputTop.value + inputSize.value > currentResizer._image.naturalHeight * 10) {
+
+      inputSubmit.setAttribute('disabled', 'disabled');
+    } else {
+      inputSubmit.removeAttribute('disabled', 'disabled');
+
+    }
+  }, true);
 
   cleanupResizer();
   updateBackground();
