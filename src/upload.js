@@ -301,11 +301,21 @@ var browserCookies = require('browser-cookies');
   var formFilter = document.querySelector('#upload-filter');
 
   formFilter.onsubmit = function() {
+
     var date1 = new Date();
-    var years = date1.getFullYear();
-    var date2 = new Date(years, 11, 9);
-    var date3 = Math.round((date2 - date1) / 1000 / 3600 / 24);
+    var dateStage = new Date();
+    var date2 = new Date(dateStage.setMonth(11, [9]));
+    var date4 = new Date(dateStage.setMonth(11, [31]));
+    var date3 = 0;
+
+    if (date2 > date1) {
+      date3 = Math.ceil((date2 - date1) / 1000 / 3600 / 24);
+    } else {
+      date3 = Math.ceil((date4 - date1 + date2) / 1000 / 3600 / 24);
+    }
+
     var inputFilter = document.querySelector('input[name="upload-filter"]:checked');
+
     if (inputFilter) {
       browserCookies.set('upload-filter', inputFilter.value, {expires: date3});
     }
