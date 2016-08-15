@@ -278,16 +278,16 @@
     var left = parseFloat(inputLeft.value) || 0;
     var top = parseFloat(inputTop.value) || 0;
     var size = parseFloat(inputSize.value) || 0;
+    var negativeValuePresent = left < 0 || top < 0 || size < 0;
 
-    if(left < 0 ||
-       top < 0 ||
-      size < 0 ||
+    if(
+      negativeValuePresent ||
       left + size > currentResizer._image.naturalWidth ||
       top + size > currentResizer._image.naturalHeight) {
 
       inputSubmit.setAttribute('disabled', 'disabled');
     } else {
-      inputSubmit.removeAttribute('disabled', 'disabled');
+      inputSubmit.removeAttribute('disabled');
 
     }
   }, true);
