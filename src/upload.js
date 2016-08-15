@@ -279,11 +279,13 @@
     var top = parseFloat(inputTop.value) || 0;
     var size = parseFloat(inputSize.value) || 0;
     var negativeValuePresent = left < 0 || top < 0 || size < 0;
+    var MaxLeftSize = left + size;
+    var MaxTopSize = top + size;
 
     if(
       negativeValuePresent ||
-      left + size > currentResizer._image.naturalWidth ||
-      top + size > currentResizer._image.naturalHeight) {
+      MaxLeftSize > currentResizer._image.naturalWidth ||
+      MaxTopSize > currentResizer._image.naturalHeight) {
 
       inputSubmit.setAttribute('disabled', 'disabled');
     } else {
