@@ -282,11 +282,9 @@
     var MaxLeftSize = left + size;
     var MaxTopSize = top + size;
 
-    if(
-      negativeValuePresent ||
+    if(negativeValuePresent ||
       MaxLeftSize > currentResizer._image.naturalWidth ||
       MaxTopSize > currentResizer._image.naturalHeight) {
-
       inputSubmit.setAttribute('disabled', 'disabled');
     } else {
       inputSubmit.removeAttribute('disabled');
