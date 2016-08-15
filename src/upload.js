@@ -71,8 +71,10 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+    return resizeFormValid;
   }
+
+  var resizeFormValid = false;
 
   /**
    * Форма загрузки изображения.
@@ -265,13 +267,13 @@
   var fieldset = document.querySelector('.upload-resize-controls');
   var inputSubmit = document.querySelector('.upload-form-controls-fwd');
 
+
   var inputLeft = document.querySelector('#resize-x');
   var inputTop = document.querySelector('#resize-y');
   var inputSize = document.querySelector('#resize-size');
 
-  fieldset.addEventListener('input', function(event) {
-
-    if(event.target.tagName.toLowerCase() !== 'input') {
+  var resizeFormInputHandler = function(event) {
+    if (event.target.tagName.toLowerCase() !== 'input') {
       return;
     }
 
@@ -279,18 +281,19 @@
     var top = parseFloat(inputTop.value) || 0;
     var size = parseFloat(inputSize.value) || 0;
     var negativeValuePresent = left < 0 || top < 0 || size < 0;
-    var MaxLeftSize = left + size;
-    var MaxTopSize = top + size;
+    var isLeftSizeValid = left + size > currentResizer._image.naturalWidth;
+    var isTopSizeValid = top + size > currentResizer._image.naturalHeight;
 
-    if(negativeValuePresent ||
-      MaxLeftSize > currentResizer._image.naturalWidth ||
-      MaxTopSize > currentResizer._image.naturalHeight) {
+    if (negativeValuePresent || isLeftSizeValid || isTopSizeValid) {
       inputSubmit.setAttribute('disabled', 'disabled');
+      resizeFormValid = false;
     } else {
       inputSubmit.removeAttribute('disabled');
-
+      resizeFormValid = true;
     }
-  }, true);
+  };
+
+  fieldset.addEventListener('input', resizeFormInputHandler, true);
 
   cleanupResizer();
   updateBackground();
