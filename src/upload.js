@@ -264,6 +264,7 @@
 
   var fieldset = document.querySelector('.upload-resize-controls');
   var inputSubmit = document.querySelector('.upload-form-controls-fwd');
+
   var inputLeft = document.querySelector('#resize-x');
   var inputTop = document.querySelector('#resize-y');
   var inputSize = document.querySelector('#resize-size');
@@ -274,11 +275,15 @@
       return;
     }
 
-    if(inputLeft.value < 0 ||
-      inputTop.value < 0 ||
-      inputSize.value < 0 ||
-      inputLeft.value + inputSize.value > currentResizer._image.naturalWidth * 10 ||
-      inputTop.value + inputSize.value > currentResizer._image.naturalHeight * 10) {
+    var left = parseFloat(inputLeft.value) || 0;
+    var top = parseFloat(inputTop.value) || 0;
+    var size = parseFloat(inputSize.value) || 0;
+
+    if(left < 0 ||
+       top < 0 ||
+      size < 0 ||
+      left + size > currentResizer._image.naturalWidth ||
+      top + size > currentResizer._image.naturalHeight) {
 
       inputSubmit.setAttribute('disabled', 'disabled');
     } else {
