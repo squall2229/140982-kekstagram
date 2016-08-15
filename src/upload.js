@@ -1,11 +1,13 @@
+
 /* global Resizer: true */
 
 /**
  * @fileoverview
  * @author Igor Alexeenko (o0)
  */
-
 'use strict';
+
+var browserCookies = require('browser-cookies');
 
 (function() {
   /** @enum {string} */
@@ -294,6 +296,21 @@
   };
 
   fieldset.addEventListener('input', resizeFormInputHandler, true);
+
+  // Cookies
+  var formFilter = document.querySelector('#upload-filter');
+
+  formFilter.onsubmit = function() {
+    var date1 = +new Date();
+    var now = new Date();
+    var years = now.getFullYear();
+    var date2 = new Date(years, 11, 9);
+    var date3 = Math.round((date2 - date1) / 1000 / 3600 / 24);
+    var inputFilter = document.querySelector('input[name="upload-filter"]:checked');
+    if (inputFilter) {
+      browserCookies.set('upload-filter', inputFilter.value, {expires: date3});
+    }
+  };
 
   cleanupResizer();
   updateBackground();
