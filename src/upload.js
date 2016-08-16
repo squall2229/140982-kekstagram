@@ -302,22 +302,25 @@ var browserCookies = require('browser-cookies');
 
   formFilter.onsubmit = function() {
 
-    var date1 = new Date();
-    var dateStage = new Date();
-    var date2 = new Date(dateStage.setMonth(11, [9]));
-    var date4 = new Date(dateStage.setMonth(11, [31]));
-    var date3 = 0;
+    var now = new Date(); // текущее время
+    var birthday = new Date();// день рождение текущего года
+    birthday.setMonth(11, [9]);
+    var year = now.getFullYear(); // год текущего времени
+    var yearOld = year - 1;
+    var ONE_DAY = 1000 * 3600 * 24;
 
-    if (date2 > date1) {
-      date3 = Math.ceil((date2 - date1) / 1000 / 3600 / 24);
-    } else {
-      date3 = Math.ceil((date4 - date1 + date2) / 1000 / 3600 / 24);
+    function cookie() {
+      if (now < birthday) {
+        birthday.setFullYear(yearOld);  // если ДР больше текущей даты, то вычитаем один из текущего года
+      }
+      return Math.round((now - birthday) / ONE_DAY); // считаем результат
     }
 
+    var cookieday = cookie();  // записываем результат функции в переменную
     var inputFilter = document.querySelector('input[name="upload-filter"]:checked');
 
     if (inputFilter) {
-      browserCookies.set('upload-filter', inputFilter.value, {expires: date3});
+      browserCookies.set('upload-filter', inputFilter.value, {expires: cookieday});
     }
   };
 
