@@ -1,10 +1,10 @@
+
 /* global Resizer: true */
 
 /**
  * @fileoverview
  * @author Igor Alexeenko (o0)
  */
-
 'use strict';
 
 (function() {
