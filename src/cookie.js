@@ -22,11 +22,12 @@
 
     if (inputFilter) {
       browserCookies.set('upload-filter', inputFilter.value, {expires: cookieday});
-      alert(browserCookies.get('upload-filter', 'inputFilter.value'))
     }
   };
-  var inputFilter = browserCookies.get('upload-filter', 'inputFilter.value');
-  var inputCheck = document.querySelector('#' + inputFilter);
-  inputCheck.setAttribute('checked', 'checked')
+  var inputFilter = browserCookies.get('upload-filter');
+  var inputCheck = document.querySelector('#' + 'upload-filter-' + inputFilter);
+  if(inputCheck) {
+    inputCheck.setAttribute('checked', 'checked');
+  }
 
 })();
