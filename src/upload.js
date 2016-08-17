@@ -74,7 +74,7 @@
     return resizeFormValid;
   }
 
-  var resizeFormValid = false;
+  var resizeFormValid = true;
 
   /**
    * Форма загрузки изображения.
