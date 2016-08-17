@@ -26,8 +26,10 @@
   };
   var inputFilter = browserCookies.get('upload-filter');
   var inputCheck = document.querySelector('#' + 'upload-filter-' + inputFilter);
+  var image = formFilter.querySelector('img');
   if(inputCheck) {
     inputCheck.setAttribute('checked', 'checked');
+    image.classList.add('filter-' + inputFilter);
   }
 
 })();
