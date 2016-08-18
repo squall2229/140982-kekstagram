@@ -7,13 +7,13 @@
     pictures = data;
   };
   var loadJsonp = function(url, callback) {
-    if (typeof (callback) === 'function' && typeof (url) === 'string') {
+    if (typeof callback === 'function' && typeof url === 'string') {
       var callbackName = 'cb' + String(Math.random()).slice(-6);
       window.CallbackRegistry[callbackName] = callback;
       url += '?callback=CallbackRegistry.' + callbackName;
-      var picturesScript = document.createElement('script');
-      picturesScript.src = url;
-      document.body.appendChild(picturesScript);
+      var scriptElement = document.createElement('script');
+      scriptElement.src = url;
+      document.body.appendChild(scriptElement);
     }
   };
   loadJsonp(picturesUrl, picturesCallback);
