@@ -6,14 +6,18 @@
   var picturesContainer = document.querySelector('.pictures');
   var templateElement = document.querySelector('#picture-template');
   var elementToClone = templateElement.content.querySelector('.picture');
+  var hiddenFilters = document.querySelector('.filters');
+  hiddenFilters.classList.add('hidden');
+
   var picturesCallback = function(data) {
     pictures = data;
-    var hiddenFilters = document.querySelector('.filters');
-    hiddenFilters.classList.add('hidden');
-    pictures.forEach(function(picture, i) {
-      loadImages(picture, picturesContainer, i);
+    pictures.forEach(function(picture) {
+      loadImage(picture, picturesContainer, elementToClone);
     });
+
+    hiddenFilters.classList.remove('hidden');
   };
+
   var loadJsonp = function(url, callback) {
     if (typeof callback === 'function' && typeof url === 'string') {
       var callbackName = 'cb' + String(Math.random()).slice(-6);
@@ -26,14 +30,13 @@
   };
   loadJsonp(picturesUrl, picturesCallback);
 
-  var loadImages = function(data, container, i) {
-    var element = elementToClone.cloneNode(true);
+  var loadImage = function(data, container, template) {
+    var element = template.cloneNode(true);
     element.querySelector('.picture-likes').textContent = data.likes;
     element.querySelector('.picture-comments').textContent = data.comments;
     var imgPicture = element.querySelector('img');
     var img = new Image(182, 182);
-    i = i + 1;
-    img.src = 'photos/' + i + '.jpg';
+    img.src = data.url;
     img.onload = function() {
       imgPicture.src = img.src;
     };
