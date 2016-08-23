@@ -3,5 +3,7 @@ require('./check.js');
 require('./resizer.js');
 require('./upload-stat.min.js');
 require('./upload.js');
-require('./cookie.js');
+var cookie = require('./cookie.js');
 require('./pictures.js');
+
+cookie();

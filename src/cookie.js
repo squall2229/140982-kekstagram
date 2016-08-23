@@ -1,5 +1,5 @@
 'use strict';
-(function() {
+module.expors = function() {
   var browserCookies = require('browser-cookies');
   var formFilter = document.querySelector('#upload-filter');
 
@@ -31,5 +31,4 @@
     inputCheck.setAttribute('checked', 'checked');
     image.classList.add('filter-' + inputFilter);
   }
-
-})();
+};
