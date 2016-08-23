@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(data, container, template) {
+var picturesRender = function(data, container, template) {
   var element = template.cloneNode(true);
   element.querySelector('.picture-likes').textContent = data.likes;
   element.querySelector('.picture-comments').textContent = data.comments;
@@ -15,3 +15,4 @@ module.exports = function(data, container, template) {
   container.appendChild(element);
   return element;
 };
+module.exports = picturesRender;

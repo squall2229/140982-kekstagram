@@ -1,7 +1,7 @@
 'use strict';
-module.exports = function() {
-  var browserCookies = require('browser-cookies');
-  var cookieBackDay = require('./cookieBackDay');
+var browserCookies = require('browser-cookies');
+var cookieBackDay = require('./cookieBackDay');
+var cookieModule = function() {
   var formFilter = document.querySelector('#upload-filter');
 
   cookieBackDay();
@@ -22,3 +22,4 @@ module.exports = function() {
     image.classList.add('filter-' + inputFilter);
   }
 };
+module.exports = cookieModule;

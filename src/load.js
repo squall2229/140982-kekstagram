@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(url, callback) {
+var loadJsonp = function(url, callback) {
   if (typeof callback === 'function' && typeof url === 'string') {
     var callbackName = 'cb' + String(Math.random()).slice(-6);
     window.CallbackRegistry[callbackName] = callback;
@@ -9,3 +9,4 @@ module.exports = function(url, callback) {
     document.body.appendChild(scriptElement);
   }
 };
+module.exports = loadJsonp;

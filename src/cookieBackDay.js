@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function cookieBackDay() {
+var cookieBackDay = function() {
   var now = new Date(); // текущее время
   var birthday = new Date();// день рождение текущего года
   birthday.setMonth(11, 9);
@@ -11,3 +11,4 @@ module.exports = function cookieBackDay() {
   }
   return Math.round((now - birthday) / ONE_DAY); // считаем результат
 };
+module.exports = cookieBackDay;
