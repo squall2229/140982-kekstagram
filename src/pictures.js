@@ -2,7 +2,7 @@
 var review = require('./review');
 var load = require('./load');
 
-(function() {
+module.exports = function() {
   window.CallbackRegistry = {};
   var picturesUrl = '/api/pictures';
   var pictures = null;
@@ -22,5 +22,4 @@ var load = require('./load');
 
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, picturesCallback);
-
-}());
+};
