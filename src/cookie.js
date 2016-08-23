@@ -4,8 +4,6 @@ var cookieBackDay = require('./cookieBackDay');
 var cookieModule = function() {
   var formFilter = document.querySelector('#upload-filter');
 
-  cookieBackDay();
-
   formFilter.onsubmit = function() {
     var cookieday = cookieBackDay();  // записываем результат функции в переменную
     var inputFilter = document.querySelector('input[name="upload-filter"]:checked');
