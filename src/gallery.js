@@ -1,36 +1,37 @@
 'use strict';
-var Gallery = function() {
+var Gallery = function(pictures) {
+  var self = this;
   this.pictures = pictures;
-  this.activePicture = activePicture;
-  this.elementGallery = document.querySelector('.gallery-overlay');
-  this.elementClose = document.querySelector('.gallery-overlay-close');
-  this.elementPhoto = document.querySelector('.gallery-overlay-image');
-  this.elementLikes = document.querySelector('.likes-count');
-  this.elementComments = document.querySelector('.-count');
+  this.activePicture = null;
+  var elementGallery = document.querySelector('.gallery-overlay');
+  var elementClose = document.querySelector('.gallery-overlay-close');
+  var elementPhoto = document.querySelector('.gallery-overlay-image');
+  var elementLikes = document.querySelector('.likes-count');
+  var elementComments = document.querySelector('.-count');
 };
 Gallery.prototype.setPictures = function(pictures) {
-  this.pictures = pictures;
+  self.pictures = pictures;
 };
 Gallery.prototype.show = function(number) {
-  this.elementClose.onclick = function() {
+  elementClose.onclick = function() {
     hide();
   };
-  this.elementPhoto.onclick = function() {
+  elementPhoto.onclick = function() {
     setActivePicture(number);
   };
-  this.elementGallery.classList.remove('hidden');
-  setActivePicture(number);
+  elementGallery.classList.remove('invisible');
+    setActivePicture(number);
 };
 Gallery.prototype.hide = function() {
-  this.elementGallery.classList.add('invisible');
-  this.elementGallery.onclick = null;
-  this.elementClose.onclick = null;
-  this.elementPhoto.onclick = null;
+  elementGallery.classList.add('invisible');
+  elementGallery.onclick = null;
+  elementClose.onclick = null;
+  elementPhoto.onclick = null;
 };
 Gallery.prototype.setActivePicture = function(number) {
   this.activePicture = number;
-  this.elementPhoto.src = pictures[number];
-  this.elementLikes.textContent = data.likes;
-  this.elementComments.textContent = data.comments;
+  elementPhoto.src = pictures[number];
+  elementLikes.textContent = data.likes;
+  elementComments.textContent = data.comments;
 };
 module.exports = new Gallery();

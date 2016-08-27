@@ -22,4 +22,5 @@ module.exports = function() {
   };
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, picturesCallback);
+  gallery.setPictures(pictures);
 };
