@@ -1,5 +1,6 @@
 'use strict';
-var picturesRender = function(data, container, template) {
+var gallery = require('./gallery.js');
+var picturesRender = function(data, container, template, imageNumber) {
   var element = template.cloneNode(true);
   element.querySelector('.picture-likes').textContent = data.likes;
   element.querySelector('.picture-comments').textContent = data.comments;
@@ -12,6 +13,10 @@ var picturesRender = function(data, container, template) {
   img.onerror = function() {
     element.classList.add('picture-load-failure');
   };
+  element.addEventListener('click', function(event) {
+    event.preventDefault();
+    gallery.show(imageNumber);
+  });
   container.appendChild(element);
   return element;
 };

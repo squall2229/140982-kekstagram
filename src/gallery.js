@@ -1,7 +1,5 @@
 'use strict';
-var Gallery = function(pictures) {
-  var self = this;
-  this.pictures = pictures;
+var Gallery = function() {
   this.activePicture = null;
   this.elementGallery = document.querySelector('.gallery-overlay');
   this.elementClose = document.querySelector('.gallery-overlay-close');
@@ -10,28 +8,31 @@ var Gallery = function(pictures) {
   this.elementComments = document.querySelector('.comments-count');
 };
 Gallery.prototype.setPictures = function(pictures) {
-  self.pictures = pictures;
+  this.pictures = pictures;
 };
 Gallery.prototype.show = function(number) {
-  elementClose.onclick = function() {
-    this.hide();
-  };
-  elementPhoto.onclick = function() {
-    this.setActivePicture(number);
-  };
-  elementGallery.classList.remove('invisible');
-    this.setActivePicture(number);
+  var self = this;
+  this.elementClose.addEventListener('click', function() {
+    self.hide();
+  });
+  this.elementPhoto.addEventListener('click', function() {
+    self.setActivePicture(self.activePicture + 1);
+  });
+  this.elementGallery.classList.remove('invisible');
+  this.setActivePicture(number);
 };
 Gallery.prototype.hide = function() {
   this.elementGallery.classList.add('invisible');
-  this.elementGallery.onclick = null;
-  this.elementClose.onclick = null;
-  this.elementPhoto.onclick = null;
+  this.elementClose.removeEventListener('click', this, false);
+  this.elementPhoto.removeEventListener('click', this, false);
 };
 Gallery.prototype.setActivePicture = function(number) {
+  if ( number > this.pictures.length ) {
+    number = 0;
+  }
   this.activePicture = number;
-  this.elementPhoto.src = pictures[number];
-  this.elementLikes.textContent = data.likes;
-  this.elementComments.textContent = data.comments;
+  this.elementPhoto.src = this.pictures[number].url;
+  this.elementLikes.textContent = this.pictures[number].likes;
+  this.elementComments.textContent = this.pictures[number].comments;
 };
 module.exports = new Gallery();
