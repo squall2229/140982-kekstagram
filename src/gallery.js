@@ -7,9 +7,11 @@ var Gallery = function() {
   this.elementLikes = document.querySelector('.likes-count');
   this.elementComments = document.querySelector('.comments-count');
 };
+
 Gallery.prototype.setPictures = function(pictures) {
   this.pictures = pictures;
 };
+
 Gallery.prototype.show = function(number) {
   var self = this;
   this.elementClose.addEventListener('click', function() {
@@ -21,11 +23,13 @@ Gallery.prototype.show = function(number) {
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
 };
+
 Gallery.prototype.hide = function() {
   this.elementGallery.classList.add('invisible');
   this.elementClose.removeEventListener('click', this, false);
   this.elementPhoto.removeEventListener('click', this, false);
 };
+
 Gallery.prototype.setActivePicture = function(number) {
   if ( number > this.pictures.length ) {
     number = 0;
@@ -35,4 +39,5 @@ Gallery.prototype.setActivePicture = function(number) {
   this.elementLikes.textContent = this.pictures[number].likes;
   this.elementComments.textContent = this.pictures[number].comments;
 };
+
 module.exports = new Gallery();
