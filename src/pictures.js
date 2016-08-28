@@ -1,6 +1,7 @@
 'use strict';
 var review = require('./review');
 var load = require('./load');
+var gallery = require('./gallery');
 
 module.exports = function() {
   window.CallbackRegistry = {};
@@ -13,13 +14,12 @@ module.exports = function() {
 
   var picturesCallback = function(data) {
     pictures = data;
-    pictures.forEach(function(picture) {
-      review(picture, picturesContainer, elementToClone);
+    pictures.forEach(function(picture, index) {
+      review(picture, picturesContainer, elementToClone, index);
     });
-
+    gallery.setPictures(pictures);
     hiddenFilters.classList.remove('hidden');
   };
-
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, picturesCallback);
 };
