@@ -15,8 +15,8 @@ module.exports = function() {
   var picturesCallback = function(data) {
     pictures = data;
     pictures.forEach(function(picture, index) {
-      var newpicture = new Picture(picture, picturesContainer, elementToClone, index);
-      picturesContainer.appendChild(newpicture.element);
+      var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
+      picturesContainer.appendChild(newPicture.element);
     });
     gallery.setPictures(pictures);
     hiddenFilters.classList.remove('hidden');

@@ -1,28 +1,31 @@
 'use strict';
 var gallery = require('./gallery.js');
 var Picture = function(data, container, template, imageNumber) {
-  this.element = template.cloneNode(true);
-  this.data = data;
-  this.element.querySelector('.picture-likes').textContent = data.likes;
-  this.element.querySelector('.picture-comments').textContent = data.comments;
-  var imgPicture = this.element.querySelector('img');
+  var self = this;
+  self.element = template.cloneNode(true);
+  var pictureLike = self.element.querySelector('.picture-likes');
+  var pictureComment = self.element.querySelector('.picture-comments');
+  self.data = data;
+  pictureLike.textContent = data.likes;
+  pictureComment.textContent = data.comments;
+  var imgPicture = self.element.querySelector('img');
   var img = new Image(182, 182);
   img.src = data.url;
-  var self = this;
   img.onload = function() {
     imgPicture.src = img.src;
   };
   img.onerror = function() {
     self.element.classList.add('picture-load-failure');
   };
-  this.element.addEventListener('click', function(event) {
-    event.preventDefault();
+  var elementClick = function(evt) {
+    evt.preventDefault();
     gallery.show(imageNumber);
-  });
+  };
+  self.element.addEventListener('click', elementClick);
 };
 
 Picture.prototype.remove = function() {
-  this.element.removeEventListener('click', this, false);
+  this.element.removeEventListener('click', this.elementClick);
 };
 
 module.exports = Picture;
