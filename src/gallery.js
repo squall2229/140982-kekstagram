@@ -40,4 +40,5 @@ Gallery.prototype.setActivePicture = function(number) {
   this.elementComments.textContent = this.pictures[number].comments;
 };
 
+
 module.exports = new Gallery();
