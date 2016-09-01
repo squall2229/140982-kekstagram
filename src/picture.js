@@ -17,17 +17,15 @@ var Picture = function(data, container, template, imageNumber) {
   img.onerror = function() {
     self.element.classList.add('picture-load-failure');
   };
-  self.element.addEventListener('click', this.elementClick);
-  this.imageNumber = imageNumber;
-};
 
-Picture.prototype.elementClick = function(evt) {
+  self.element.onclick = function(evt) {
     evt.preventDefault();
-    gallery.show(this.imageNumber);
+    gallery.show(imageNumber);
+  };
 };
 
 Picture.prototype.remove = function() {
-  this.element.removeEventListener('click', this.elementClick);
+  this.element.onclick = null;
 };
 
 module.exports = Picture;
