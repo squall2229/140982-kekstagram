@@ -14,20 +14,20 @@ Gallery.prototype.setPictures = function(pictures) {
 
 Gallery.prototype.show = function(number) {
   var self = this;
-  this.elementClose.addEventListener('click', function() {
+  this.elementClose.onclick = function() {
     self.hide();
-  });
-  this.elementPhoto.addEventListener('click', function() {
+  };
+  this.elementPhoto.onclick = function() {
     self.setActivePicture(self.activePicture + 1);
-  });
+  };
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
 };
 
 Gallery.prototype.hide = function() {
   this.elementGallery.classList.add('invisible');
-  this.elementClose.removeEventListener('click', this, false);
-  this.elementPhoto.removeEventListener('click', this, false);
+  this.elementClose.onclick = null;
+  this.elementPhoto.onclick = null;
 };
 
 Gallery.prototype.setActivePicture = function(number) {
@@ -39,5 +39,6 @@ Gallery.prototype.setActivePicture = function(number) {
   this.elementLikes.textContent = this.pictures[number].likes;
   this.elementComments.textContent = this.pictures[number].comments;
 };
+
 
 module.exports = new Gallery();

@@ -1,5 +1,5 @@
 'use strict';
-var review = require('./review');
+var Picture = require('./picture');
 var load = require('./load');
 var gallery = require('./gallery');
 
@@ -15,7 +15,8 @@ module.exports = function() {
   var picturesCallback = function(data) {
     pictures = data;
     pictures.forEach(function(picture, index) {
-      review(picture, picturesContainer, elementToClone, index);
+      var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
+      picturesContainer.appendChild(newPicture.element);
     });
     gallery.setPictures(pictures);
     hiddenFilters.classList.remove('hidden');
