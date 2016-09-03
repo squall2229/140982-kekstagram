@@ -1,10 +1,9 @@
 'use strict';
 
-var load = function(url, callback) { // + object
+var load = function(url, options, callback) {
   var xhr = new XMLHttpRequest();
-  //var param = '?from=' + object.from + '&to=' + object.to + '&filter=' + object.filter;
-  xhr.open('GET', url, true); // + param
-
+  var param = '?from=' + options.from + '&to=' + options.to + '&filter=' + options.filter;
+  xhr.open('GET', url + param, true);
   xhr.onload = function() {
     var jsonData = JSON.parse(xhr.responseText);
     callback(jsonData);

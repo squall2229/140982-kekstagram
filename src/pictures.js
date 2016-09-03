@@ -21,6 +21,17 @@ module.exports = function() {
     hiddenFilters.classList.remove('hidden');
   };
 
-  hiddenFilters.classList.add('hidden');
-  load(picturesUrl, picturesCallback); // + object
+  hiddenFilters.classList.remove('hidden');
+  //load(picturesUrl, {from: 0, to: 12 }, picturesCallback);
+
+  hiddenFilters.addEventListener('change', function(evt) {
+    var elementId = evt.target.id;
+    load(picturesUrl, {from: 0, to: 12, id: elementId}, picturesCallback);
+  }, true);
+
+  /*
+  window.addEventListener('scroll', function(evt) {
+    load(picturesUrl, {from: 0, to: 12 }, picturesCallback);
+  })
+ */
 };
