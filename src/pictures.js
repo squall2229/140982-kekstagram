@@ -4,9 +4,8 @@ var load = require('./load');
 var gallery = require('./gallery');
 
 module.exports = function() {
-  window.CallbackRegistry = {};
   var picturesUrl = '/api/pictures';
-  var pictures = null;
+  var pictures;
   var picturesContainer = document.querySelector('.pictures');
   var templateElement = document.querySelector('#picture-template');
   var elementToClone = templateElement.content.querySelector('.picture');
@@ -21,6 +20,7 @@ module.exports = function() {
     gallery.setPictures(pictures);
     hiddenFilters.classList.remove('hidden');
   };
+
   hiddenFilters.classList.add('hidden');
-  load(picturesUrl, picturesCallback);
+  load(picturesUrl, picturesCallback); // + object
 };
