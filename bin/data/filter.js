@@ -20,10 +20,10 @@ module.exports = function(list, filterID) {
       break;
 
    default:
-   filteredList = list.sort(function(a, b) {
-     return b['likes'] - a['likes'];
-   })
-   break;
+     filteredList = list.sort(function(a, b) {
+       return b['likes'] - a['likes'];
+     })
+     break;
   }
   return filteredList;
 };

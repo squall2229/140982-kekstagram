@@ -13,7 +13,7 @@ module.exports = function() {
   var page = 0;
   var PAGESIZE = 12;
 
-  var picturesScroll = function() {
+  var loadPicturesNextPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE}, picturesCallback);
   };
@@ -24,8 +24,11 @@ module.exports = function() {
     return positionImage.top - window.innerHeight - 100 <= 0;
   };
 
-  var isNextPageAvailable = function(data, pagelist) {
-    return pagelist < Math.round(data.length / PAGESIZE);
+  var picturesChange = function() {
+    if (isBottomReached()) {
+      clearTimeout(scrollTimeout);
+      var scrollTimeout = setTimeout(loadPicturesNextPage, 100);
+    }
   };
 
   var picturesCallback = function(data) {
@@ -33,8 +36,8 @@ module.exports = function() {
     if (page === 0) {
       picturesContainer.innerHTML = '';
     }
-    if (data.length === 0) {
-      window.removeEventListener('scroll', picturesScroll);
+    if (data.length === 0 || data.length < PAGESIZE) {
+      window.addEventListener('scroll', picturesChange);
     }
     pictures.forEach(function(picture, index) {
       var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
@@ -46,7 +49,10 @@ module.exports = function() {
 
   hiddenFilters.classList.remove('hidden');
   load(picturesUrl, {from: 0, to: PAGESIZE }, picturesCallback);
+
   hiddenFilters.addEventListener('change', function(evt) {
+
+    window.addEventListener('scroll', picturesChange);
     if (event.target.tagName.toLowerCase() === 'input') {
       page = 0;
       var elementValue = evt.target.value;
@@ -54,10 +60,5 @@ module.exports = function() {
     }
   }, true);
 
-  window.addEventListener('scroll', function() {
-    if (isBottomReached() && isNextPageAvailable(pictures, page)) {
-      clearTimeout(scrollTimeout);
-      var scrollTimeout = setTimeout(picturesScroll, 100);
-    }
-  });
+  window.addEventListener('scroll', picturesChange);
 };
