@@ -1,5 +1,6 @@
 'use strict';
 var Gallery = function() {
+  this.pictures = [];
   this.activePicture = null;
   this.elementGallery = document.querySelector('.gallery-overlay');
   this.elementClose = document.querySelector('.gallery-overlay-close');
@@ -8,8 +9,12 @@ var Gallery = function() {
   this.elementComments = document.querySelector('.comments-count');
 };
 
-Gallery.prototype.setPictures = function(pictures) {
-  this.pictures = pictures;
+Gallery.prototype.setPictures = function(pictures, check) { // доп параметр
+  if (check) {
+    this.pictures = this.pictures.concat(pictures);
+  } else {
+    this.pictures = pictures;
+  }
 };
 
 Gallery.prototype.show = function(number) {
@@ -39,6 +44,5 @@ Gallery.prototype.setActivePicture = function(number) {
   this.elementLikes.textContent = this.pictures[number].likes;
   this.elementComments.textContent = this.pictures[number].comments;
 };
-
 
 module.exports = new Gallery();

@@ -27,11 +27,11 @@ module.exports = function() {
   var picturesChange = function() {
     if (isBottomReached()) {
       clearTimeout(scrollTimeout);
-      var scrollTimeout = setTimeout(scrollPicturesNextPage, 100);
+      var scrollTimeout = setTimeout(scrollPicturesNextPage, 100);// в общую область видимости засунуть
     }
   };
 
-  var loadPicturesNextPage = function(evt) {
+  var filterPicturesShow = function(evt) {  // переименовать
     if (evt.target.tagName.toLowerCase() === 'input') {
       var elementValue = evt.target.value;
       page = 0;
@@ -41,6 +41,7 @@ module.exports = function() {
   };
 
   var picturesCallback = function(data) {
+    var checkFilter; // переменная бул. ??????
     if (page === 0) {
       picturesContainer.innerHTML = '';
     }
@@ -52,12 +53,12 @@ module.exports = function() {
       var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
       picturesContainer.appendChild(newPicture.element);
     });
-    gallery.setPictures(pictures);
+    gallery.setPictures(pictures, checkFilter);
     hiddenFilters.classList.remove('hidden');
   };
 
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
-  hiddenFilters.addEventListener('change', loadPicturesNextPage, true);
+  hiddenFilters.addEventListener('change', filterPicturesShow, true);
   window.addEventListener('scroll', picturesChange);
 };
