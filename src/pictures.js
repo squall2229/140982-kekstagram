@@ -13,7 +13,7 @@ module.exports = function() {
   var page = 0;
   var PAGESIZE = 12;
 
-  var loadPicturesNextPage = function() {
+  var scrollPicturesNextPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE}, picturesCallback);
   };
@@ -27,18 +27,27 @@ module.exports = function() {
   var picturesChange = function() {
     if (isBottomReached()) {
       clearTimeout(scrollTimeout);
-      var scrollTimeout = setTimeout(loadPicturesNextPage, 100);
+      var scrollTimeout = setTimeout(scrollPicturesNextPage, 100);
+    }
+  };
+
+  var loadPicturesNextPage = function(evt) {
+    if (evt.target.tagName.toLowerCase() === 'input') {
+      var elementValue = evt.target.value;
+      page = 0;
+      window.addEventListener('scroll', picturesChange);
+      load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
     }
   };
 
   var picturesCallback = function(data) {
-    pictures = data;
     if (page === 0) {
       picturesContainer.innerHTML = '';
     }
     if (data.length === 0 || data.length < PAGESIZE) {
-      window.addEventListener('scroll', picturesChange);
+      window.removeEventListener('scroll', picturesChange);
     }
+    pictures = data;
     pictures.forEach(function(picture, index) {
       var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
       picturesContainer.appendChild(newPicture.element);
@@ -47,18 +56,8 @@ module.exports = function() {
     hiddenFilters.classList.remove('hidden');
   };
 
-  hiddenFilters.classList.remove('hidden');
-  load(picturesUrl, {from: 0, to: PAGESIZE }, picturesCallback);
-
-  hiddenFilters.addEventListener('change', function(evt) {
-
-    window.addEventListener('scroll', picturesChange);
-    if (event.target.tagName.toLowerCase() === 'input') {
-      page = 0;
-      var elementValue = evt.target.value;
-      load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
-    }
-  }, true);
-
+  hiddenFilters.classList.add('hidden');
+  load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
+  hiddenFilters.addEventListener('change', loadPicturesNextPage, true);
   window.addEventListener('scroll', picturesChange);
 };
