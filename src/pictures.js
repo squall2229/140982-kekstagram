@@ -12,6 +12,7 @@ module.exports = function() {
   var hiddenFilters = document.querySelector('.filters');
   var page = 0;
   var PAGESIZE = 12;
+  var scrollTimeout;
 
   var scrollPicturesNextPage = function() {
     page = page + 1;
@@ -27,11 +28,11 @@ module.exports = function() {
   var picturesChange = function() {
     if (isBottomReached()) {
       clearTimeout(scrollTimeout);
-      var scrollTimeout = setTimeout(scrollPicturesNextPage, 100);// в общую область видимости засунуть
+      scrollTimeout = setTimeout(scrollPicturesNextPage, 100);// в общую область видимости засунуть DONE
     }
   };
 
-  var filterPicturesShow = function(evt) {  // переименовать
+  var filterPicturesShow = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
       var elementValue = evt.target.value;
       page = 0;
@@ -41,9 +42,10 @@ module.exports = function() {
   };
 
   var picturesCallback = function(data) {
-    var checkFilter; // переменная бул. ??????
+    var checkFilter = false;
     if (page === 0) {
       picturesContainer.innerHTML = '';
+      checkFilter = true;
     }
     if (data.length === 0 || data.length < PAGESIZE) {
       window.removeEventListener('scroll', picturesChange);

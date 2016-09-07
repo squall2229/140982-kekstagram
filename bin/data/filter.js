@@ -19,11 +19,11 @@ module.exports = function(list, filterID) {
       })
       break;
 
-   default:
-     filteredList = list.sort(function(a, b) {
-       return b['likes'] - a['likes'];
-     })
-     break;
+    default:
+      filteredList = list.sort(function(a, b) {
+        return b['likes'] - a['likes'];
+      })
+      break;
   }
   return filteredList;
 };
