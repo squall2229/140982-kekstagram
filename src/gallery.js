@@ -10,10 +10,10 @@ var Gallery = function() {
 };
 
 Gallery.prototype.setPictures = function(pictures, check) { // доп параметр
-  this.pictures = pictures;
   if (check) {
     this.pictures = this.pictures.concat(pictures);
-    debugger;
+  } else {
+    this.pictures = pictures;
   }
 };
 

@@ -14,53 +14,54 @@ module.exports = function() {
   var PAGESIZE = 12;
   var scrollTimeout;
 
-  var scrollPicturesNextPage = function() {
+  var loadPicturesNextPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE}, picturesCallback);
   };
 
-  var isBottomReached = function() {
+  var isTopReached = function() {
     var lastImage = picturesContainer.querySelector('.picture:last-child');
     var positionImage = lastImage.getBoundingClientRect();
     return positionImage.top - window.innerHeight - 100 <= 0;
   };
 
-  var picturesChange = function() {
-    if (isBottomReached()) {
+  var handlerScrollPictures = function() {
+    if (isTopReached()) {
       clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(scrollPicturesNextPage, 100);// в общую область видимости засунуть DONE
+      scrollTimeout = setTimeout(loadPicturesNextPage, 100);
     }
   };
 
-  var filterPicturesShow = function(evt) {
+  var handlerChangeFilter = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
       var elementValue = evt.target.value;
       page = 0;
-      window.addEventListener('scroll', picturesChange);
+      window.addEventListener('scroll', handlerScrollPictures);
       load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
     }
   };
 
   var picturesCallback = function(data) {
-    var checkFilter = false;
+    var checkNumberPage = true;
     if (page === 0) {
       picturesContainer.innerHTML = '';
-      checkFilter = true;
+      checkNumberPage = false;
     }
     if (data.length === 0 || data.length < PAGESIZE) {
-      window.removeEventListener('scroll', picturesChange);
+      window.removeEventListener('scroll', handlerScrollPictures);
     }
     pictures = data;
     pictures.forEach(function(picture, index) {
-      var newPicture = new Picture(picture, picturesContainer, elementToClone, index);
+      var pictureNumber = PAGESIZE * page + index;
+      var newPicture = new Picture(picture, picturesContainer, elementToClone, pictureNumber);
       picturesContainer.appendChild(newPicture.element);
     });
-    gallery.setPictures(pictures, checkFilter);
+    gallery.setPictures(pictures, checkNumberPage);
     hiddenFilters.classList.remove('hidden');
   };
 
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
-  hiddenFilters.addEventListener('change', filterPicturesShow, true);
-  window.addEventListener('scroll', picturesChange);
+  hiddenFilters.addEventListener('change', handlerChangeFilter, true);
+  window.addEventListener('scroll', handlerScrollPictures);
 };
