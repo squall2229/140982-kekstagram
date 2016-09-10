@@ -13,17 +13,17 @@ module.exports = function() {
   var page = 0;
   var PAGESIZE = 12;
   var scrollTimeout;
+  var currentFilter;
 
   var loadPicturesNextPage = function() {
-    var elementFilter = hiddenFilters.querySelector('input:checked').value;
     page = page + 1;
-    load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: elementFilter}, picturesCallback);
+    load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: currentFilter}, picturesCallback);
   };
 
   var isTopReached = function() {
     var lastImage = picturesContainer.querySelector('.picture:last-child');
-    if (lastImage !== null) {
-      return lastImage;
+    if (lastImage === null) {
+      return false;
     }
     var positionImage = lastImage.getBoundingClientRect();
     return positionImage.top - window.innerHeight - 100 <= 0;
@@ -39,6 +39,7 @@ module.exports = function() {
   var handlerChangeFilter = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
       var elementValue = evt.target.value;
+      currentFilter = elementValue;
       page = 0;
       window.addEventListener('scroll', handlerScrollPictures);
       load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
