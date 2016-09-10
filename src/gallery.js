@@ -9,7 +9,7 @@ var Gallery = function() {
   this.elementComments = document.querySelector('.comments-count');
 };
 
-Gallery.prototype.setPictures = function(pictures, check) { // доп параметр
+Gallery.prototype.setPictures = function(pictures, check) {
   if (check) {
     this.pictures = this.pictures.concat(pictures);
   } else {
@@ -36,7 +36,7 @@ Gallery.prototype.hide = function() {
 };
 
 Gallery.prototype.setActivePicture = function(number) {
-  if ( number > this.pictures.length ) {
+  if ( number >= this.pictures.length ) {
     number = 0;
   }
   this.activePicture = number;

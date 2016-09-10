@@ -16,13 +16,16 @@ module.exports = function() {
 
   var loadPicturesNextPage = function() {
     page = page + 1;
-    load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE}, picturesCallback);
+    var elementFilter = hiddenFilters.querySelector('input:checked').value;
+    load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: elementFilter}, picturesCallback);
   };
 
   var isTopReached = function() {
     var lastImage = picturesContainer.querySelector('.picture:last-child');
-    var positionImage = lastImage.getBoundingClientRect();
-    return positionImage.top - window.innerHeight - 100 <= 0;
+    if (lastImage != null) {
+      var positionImage = lastImage.getBoundingClientRect();
+      return positionImage.top - window.innerHeight - 100 <= 0;
+    }
   };
 
   var handlerScrollPictures = function() {
