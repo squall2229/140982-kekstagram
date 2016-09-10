@@ -22,10 +22,11 @@ module.exports = function() {
 
   var isTopReached = function() {
     var lastImage = picturesContainer.querySelector('.picture:last-child');
-    if (lastImage != null) {
-      var positionImage = lastImage.getBoundingClientRect();
-      return positionImage.top - window.innerHeight - 100 <= 0;
+    if (lastImage !== null) {
+      return lastImage;
     }
+    var positionImage = lastImage.getBoundingClientRect();
+    return positionImage.top - window.innerHeight - 100 <= 0;
   };
 
   var handlerScrollPictures = function() {
