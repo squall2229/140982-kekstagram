@@ -15,8 +15,8 @@ module.exports = function() {
   var scrollTimeout;
 
   var loadPicturesNextPage = function() {
-    page = page + 1;
     var elementFilter = hiddenFilters.querySelector('input:checked').value;
+    page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: elementFilter}, picturesCallback);
   };
 
