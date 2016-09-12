@@ -140,7 +140,7 @@ module.exports = function() {
    * и показывается форма кадрирования.
    * @param {Event} evt
    */
-  uploadForm.onchange = function(evt) {
+  uploadForm.addEventListener('change', function(evt) {
     var element = evt.target;
     if (element.id === 'upload-file') {
       // Проверка типа загружаемого файла, тип должен быть изображением
@@ -150,18 +150,15 @@ module.exports = function() {
 
         showMessage(Action.UPLOADING);
 
-        fileReader.onload = function() {
-          cleanupResizer();
-
+        fileReader.addEventListener('load', function() {
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
           resizeForm.classList.remove('invisible');
-
           hideMessage();
-        };
+        });
 
         fileReader.readAsDataURL(element.files[0]);
       } else {
@@ -169,14 +166,14 @@ module.exports = function() {
         showMessage(Action.ERROR);
       }
     }
-  };
+  });
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
    * и обновляет фон.
    * @param {Event} evt
    */
-  resizeForm.onreset = function(evt) {
+  resizeForm.addEventListener('reset', function(evt) {
     evt.preventDefault();
 
     cleanupResizer();
@@ -184,14 +181,14 @@ module.exports = function() {
 
     resizeForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
-  };
+  });
 
   /**
    * Обработка отправки формы кадрирования. Если форма валидна, экспортирует
    * кропнутое изображение в форму добавления фильтра и показывает ее.
    * @param {Event} evt
    */
-  resizeForm.onsubmit = function(evt) {
+  resizeForm.addEventListener('submit', function(evt) {
     evt.preventDefault();
 
     if (resizeFormIsValid()) {
@@ -207,18 +204,18 @@ module.exports = function() {
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
     }
-  };
+  });
 
   /**
    * Сброс формы фильтра. Показывает форму кадрирования.
    * @param {Event} evt
    */
-  filterForm.onreset = function(evt) {
+  filterForm.addEventListener('reset', function(evt) {
     evt.preventDefault();
 
     filterForm.classList.add('invisible');
     resizeForm.classList.remove('invisible');
-  };
+  });
 
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
@@ -235,11 +232,21 @@ module.exports = function() {
     uploadForm.classList.remove('invisible');
   };
 
+  filterForm.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+
+    cleanupResizer();
+    updateBackground();
+
+    filterForm.classList.add('invisible');
+    uploadForm.classList.remove('invisible');
+  });
+
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
    */
-  filterForm.onchange = function() {
+  filterForm.addEventListener('change', function() {
     if (!filterMap) {
       // Ленивая инициализация. Объект не создается до тех пор, пока
       // не понадобится прочитать его в первый раз, а после этого запоминается
@@ -260,20 +267,18 @@ module.exports = function() {
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
-  };
+  });
 
   // Валидация формы
 
   var fieldset = document.querySelector('.upload-resize-controls');
   var inputSubmit = document.querySelector('.upload-form-controls-fwd');
-
-
   var inputLeft = document.querySelector('#resize-x');
   var inputTop = document.querySelector('#resize-y');
   var inputSize = document.querySelector('#resize-size');
 
-  var resizeFormInputHandler = function(event) {
-    if (event.target.tagName.toLowerCase() !== 'input') {
+  var resizeFormInputHandler = function(evt) {
+    if (evt.target.tagName.toLowerCase() !== 'input') {
       return;
     }
 
@@ -297,4 +302,21 @@ module.exports = function() {
 
   cleanupResizer();
   updateBackground();
+
+  var syncSizeResizer = function() {
+    inputLeft.value = currentResizer.getConstraint().x;
+    inputTop.value = currentResizer.getConstraint().y;
+    inputSize.value = currentResizer.getConstraint().side;
+  };
+
+  window.addEventListener('resizerchange', syncSizeResizer);
+
+  fieldset.addEventListener('change', function(evt) {
+    if (evt.target.tagName.toLowerCase() !== 'input') {
+      return;
+    }
+    currentResizer.setConstraint(+inputLeft.value, +inputTop.value, +inputSize.value);
+    currentResizer.moveConstraint(1);
+  }, true);
+
 };
