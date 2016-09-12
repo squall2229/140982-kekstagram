@@ -1,12 +1,14 @@
 'use strict';
-var loadJsonp = function(url, callback) {
-  if (typeof callback === 'function' && typeof url === 'string') {
-    var callbackName = 'cb' + String(Math.random()).slice(-6);
-    window.CallbackRegistry[callbackName] = callback;
-    url += '?callback=CallbackRegistry.' + callbackName;
-    var scriptElement = document.createElement('script');
-    scriptElement.src = url;
-    document.body.appendChild(scriptElement);
-  }
+
+var load = function(url, options, callback) {
+  var xhr = new XMLHttpRequest();
+  var param = '?from=' + options.from + '&to=' + options.to + '&filter=' + options.filter;
+  xhr.open('GET', url + param, true);
+  xhr.onload = function() {
+    var jsonData = JSON.parse(xhr.responseText);
+    callback(jsonData);
+  };
+
+  xhr.send();
 };
-module.exports = loadJsonp;
+module.exports = load;
