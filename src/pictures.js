@@ -62,11 +62,13 @@ module.exports = function() {
       picturesContainer.appendChild(newPicture.element);
     });
     gallery.setPictures(pictures, checkNumberPage);
+    handlerScrollPictures();
     hiddenFilters.classList.remove('hidden');
   };
 
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
+
   hiddenFilters.addEventListener('change', handlerChangeFilter, true);
   window.addEventListener('scroll', handlerScrollPictures);
 };

@@ -7,6 +7,14 @@
  */
 'use strict';
 
+
+var requestAnimationFrame = window.requestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.msRequestAnimationFrame;
+window.requestAnimationFrame = requestAnimationFrame;
+
+
 module.exports = function() {
   /** @enum {string} */
   var FileType = {
@@ -296,12 +304,10 @@ module.exports = function() {
       inputSubmit.removeAttribute('disabled');
       resizeFormValid = true;
     }
+
+    currentResizer.setConstraint(+inputLeft.value, +inputTop.value, +inputSize.value);
+    currentResizer.moveConstraint(1);
   };
-
-  fieldset.addEventListener('input', resizeFormInputHandler, true);
-
-  cleanupResizer();
-  updateBackground();
 
   var syncSizeResizer = function() {
     inputLeft.value = currentResizer.getConstraint().x;
@@ -309,14 +315,8 @@ module.exports = function() {
     inputSize.value = currentResizer.getConstraint().side;
   };
 
+  fieldset.addEventListener('input', resizeFormInputHandler, true);
   window.addEventListener('resizerchange', syncSizeResizer);
-
-  fieldset.addEventListener('change', function(evt) {
-    if (evt.target.tagName.toLowerCase() !== 'input') {
-      return;
-    }
-    currentResizer.setConstraint(+inputLeft.value, +inputTop.value, +inputSize.value);
-    currentResizer.moveConstraint(1);
-  }, true);
-
+  cleanupResizer();
+  updateBackground();
 };
