@@ -7,14 +7,6 @@
  */
 'use strict';
 
-
-var requestAnimationFrame = window.requestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.msRequestAnimationFrame;
-window.requestAnimationFrame = requestAnimationFrame;
-
-
 module.exports = function() {
   /** @enum {string} */
   var FileType = {
