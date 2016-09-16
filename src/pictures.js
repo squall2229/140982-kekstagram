@@ -15,7 +15,6 @@ module.exports = function() {
   var scrollTimeout;
   var currentFilter = localStorage.getItem('filter') || 'popular';
 
-
   var loadPicturesNextPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: currentFilter}, picturesCallback);
@@ -52,7 +51,7 @@ module.exports = function() {
     var checkNumberPage = true;
     if (page === 0) {
       picturesContainer.innerHTML = '';
-      checkNumberPage = false;
+      checkNumberPage = true;
     }
     if (data.length === 0 || data.length < PAGESIZE) {
       window.removeEventListener('scroll', handlerScrollPictures);
@@ -63,7 +62,6 @@ module.exports = function() {
       var newPicture = new Picture(picture, picturesContainer, elementToClone, pictureNumber);
       picturesContainer.appendChild(newPicture.element);
     });
-    document.getElementById('filter-' + currentFilter).click();
     gallery.setPictures(pictures, checkNumberPage);
     //handlerScrollPictures();
     hiddenFilters.classList.remove('hidden');
@@ -73,4 +71,5 @@ module.exports = function() {
   load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
   hiddenFilters.addEventListener('change', handlerChangeFilter, true);
   window.addEventListener('scroll', handlerScrollPictures);
+  document.getElementById('filter-' + currentFilter).click();
 };
