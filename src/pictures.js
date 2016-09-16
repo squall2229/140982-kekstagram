@@ -39,6 +39,7 @@ module.exports = function() {
   var handlerChangeFilter = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
       var elementValue = evt.target.value;
+      localStorage.setItem('filter', elementValue);
       currentFilter = elementValue;
       page = 0;
       window.addEventListener('scroll', handlerScrollPictures);
@@ -47,6 +48,13 @@ module.exports = function() {
   };
 
   var picturesCallback = function(data) {
+    var valueCheck = localStorage.getItem('filter');
+    var inputCheck = hiddenFilters.querySelectorAll('input');
+    inputCheck.forEach(function(element) {
+      if (element.value === valueCheck) {
+        element.setAttribute('checked', 'checked');
+      }
+    });
     var checkNumberPage = true;
     if (page === 0) {
       picturesContainer.innerHTML = '';
