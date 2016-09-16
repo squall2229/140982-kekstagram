@@ -15,6 +15,7 @@ module.exports = function() {
   var scrollTimeout;
   var currentFilter = localStorage.getItem('filter') || 'popular';
 
+
   var loadPicturesNextPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: currentFilter}, picturesCallback);
@@ -64,7 +65,7 @@ module.exports = function() {
     });
     document.getElementById('filter-' + currentFilter).click();
     gallery.setPictures(pictures, checkNumberPage);
-    handlerScrollPictures();
+    //handlerScrollPictures();
     hiddenFilters.classList.remove('hidden');
   };
 
