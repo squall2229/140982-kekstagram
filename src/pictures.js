@@ -17,7 +17,7 @@ var Pictures = function() {
   this.hasMorePages = true;
 
   this.hiddenFilters.classList.add('hidden');
-  load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback);
+  load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback.bind(this));
   document.getElementById('filter-' + this.currentFilter).click();
   window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
   this.hiddenFilters.addEventListener('change', this.handlerChangeFilter.bind(this), true);
@@ -25,7 +25,7 @@ var Pictures = function() {
 
 Pictures.prototype.loadPicturesNextPage = function() {
   this.page = this.page + 1;
-  load(this.picturesUrl, {from: this.page * this.PAGESIZE, to: this.page * this.PAGESIZE + this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback);
+  load(this.picturesUrl, {from: this.page * this.PAGESIZE, to: this.page * this.PAGESIZE + this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback.bind(this));
 };
 
 Pictures.prototype.isTopReached = function() {
@@ -40,7 +40,7 @@ Pictures.prototype.isTopReached = function() {
 Pictures.prototype.handlerScrollPictures = function() {
   if (this.isTopReached() && this.hasMorePages) {
     clearTimeout(this.scrollTimeout);
-    this.scrollTimeout = setTimeout(this.loadPicturesNextPage, 100);
+    this.scrollTimeout = setTimeout(this.loadPicturesNextPage.bind(this), 100);
   }
 };
 
@@ -52,7 +52,7 @@ Pictures.prototype.handlerChangeFilter = function(evt) {
     this.currentFilter = elementValue;
     this.page = 0;
     window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
-    load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: elementValue}, this.picturesCallback);
+    load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: elementValue}, this.picturesCallback.bind(this));
   }
 };
 
