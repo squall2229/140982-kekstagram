@@ -18,9 +18,9 @@ var Pictures = function() {
 
   this.hiddenFilters.classList.add('hidden');
   load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback);
-  this.hiddenFilters.addEventListener('change', this.handlerChangeFilter.bind(this), true);
-  window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
   document.getElementById('filter-' + this.currentFilter).click();
+  window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
+  this.hiddenFilters.addEventListener('change', this.handlerChangeFilter.bind(this), true);
 };
 
 Pictures.prototype.loadPicturesNextPage = function() {
@@ -58,7 +58,6 @@ Pictures.prototype.handlerChangeFilter = function(evt) {
 
 Pictures.prototype.picturesCallback = function(data) {
   var checkNumberPage = true;
-  console.log(this);
   if (this.page === 0) {
     this.picturesContainer.innerHTML = '';
     checkNumberPage = false;
@@ -72,7 +71,7 @@ Pictures.prototype.picturesCallback = function(data) {
     var pictureNumber = this.PAGESIZE * this.page + index;
     var newPicture = new Picture(picture, this.picturesContainer, this.elementToClone, this.pictureNumber);
     this.picturesContainer.appendChild(newPicture.element);
-  });
+  }.bind(this));
   gallery.setPictures(this.pictures, checkNumberPage);
   this.handlerScrollPictures();
   this.hiddenFilters.classList.remove('hidden');
