@@ -69,7 +69,7 @@ Pictures.prototype.picturesCallback = function(data) {
   this.pictures = data;
   this.pictures.forEach(function(picture, index) {
     var pictureNumber = this.PAGESIZE * this.page + index;
-    var newPicture = new Picture(picture, this.picturesContainer, this.elementToClone, this.pictureNumber);
+    var newPicture = new Picture(picture, this.picturesContainer, this.elementToClone, pictureNumber);
     this.picturesContainer.appendChild(newPicture.element);
   }.bind(this));
   gallery.setPictures(this.pictures, checkNumberPage);
