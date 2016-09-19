@@ -3,81 +3,81 @@ var Picture = require('./picture');
 var load = require('./load');
 var gallery = require('./gallery');
 
-module.exports = function() {
-  var picturesUrl = '/api/pictures';
-  var pictures;
-  var picturesContainer = document.querySelector('.pictures');
-  var templateElement = document.querySelector('#picture-template');
-  var elementToClone = templateElement.content.querySelector('.picture');
-  var hiddenFilters = document.querySelector('.filters');
-  var page = 0;
-  var PAGESIZE = 12;
-  var scrollTimeout;
-  var currentFilter = localStorage.getItem('filter') || 'popular';
-  var hasMorePages = true;
+var Pictures = function() {
+  this.picturesUrl = '/api/pictures';
+  this.pictures;
+  this.picturesContainer = document.querySelector('.pictures');
+  this.templateElement = document.querySelector('#picture-template');
+  this.elementToClone = this.templateElement.content.querySelector('.picture');
+  this.hiddenFilters = document.querySelector('.filters');
+  this.page = 0;
+  this.PAGESIZE = 12;
+  this.scrollTimeout;
+  this.currentFilter = localStorage.getItem('filter') || 'popular';
+  this.hasMorePages = true;
 
-  var loadPicturesNextPage = function() {};
-  var isTopReached = function() {};
-  var handlerScrollPictures = function() {};
-  var handlerChangeFilter = function() {};
+  this.hiddenFilters.classList.add('hidden');
+  load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback);
+  this.hiddenFilters.addEventListener('change', this.handlerChangeFilter.bind(this), true);
+  window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
+  document.getElementById('filter-' + this.currentFilter).click();
+};
 
-  loadPicturesNextPage.prototype.loadPage = function() {
-    page = page + 1;
-    load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: currentFilter}, picturesCallback);
-  };
+Pictures.prototype.loadPicturesNextPage = function() {
+  this.page = this.page + 1;
+  load(this.picturesUrl, {from: this.page * this.PAGESIZE, to: this.page * this.PAGESIZE + this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback);
+};
 
-  isTopReached.prototype.position = function() {
-    var lastImage = picturesContainer.querySelector('.picture:last-child');
-    if (lastImage === null) {
-      return false;
-    }
-    var positionImage = lastImage.getBoundingClientRect();
-    return positionImage.top - window.innerHeight - 100 <= 0;
+Pictures.prototype.isTopReached = function() {
+  var lastImage = this.picturesContainer.querySelector('.picture:last-child');
+  if (lastImage === null) {
+    return false;
   }
+  var positionImage = lastImage.getBoundingClientRect();
+  return positionImage.top - window.innerHeight - 100 <= 0;
+};
 
-  handlerScrollPictures.prototype.scroll = function() {
-    if (new isTopReached().position() && hasMorePages) {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(new loadPicturesNextPage().loadPage(), 100);
-    }
-  };
+Pictures.prototype.handlerScrollPictures = function() {
+  if (this.isTopReached() && this.hasMorePages) {
+    clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(this.loadPicturesNextPage, 100);
+  }
+};
 
-  handlerChangeFilter.prototype.filter = function(evt) {
-    if (evt.target.tagName.toLowerCase() === 'input') {
-      hasMorePages = true;
-      var elementValue = evt.target.value;
-      localStorage.setItem('filter', elementValue);
-      currentFilter = elementValue;
-      page = 0;
-      window.addEventListener('scroll', new handlerScrollPictures().scroll());
-      load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
-    }
-  };
+Pictures.prototype.handlerChangeFilter = function(evt) {
+  if (evt.target.tagName.toLowerCase() === 'input') {
+    this.hasMorePages = true;
+    var elementValue = evt.target.value;
+    localStorage.setItem('filter', elementValue);
+    this.currentFilter = elementValue;
+    this.page = 0;
+    window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
+    load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: elementValue}, this.picturesCallback);
+  }
+};
 
-  var picturesCallback = function(data) {
-    var checkNumberPage = true;
-    if (page === 0) {
-      picturesContainer.innerHTML = '';
-      checkNumberPage = false;
-    }
-    if (data.length === 0 || data.length < PAGESIZE) {
-      window.removeEventListener('scroll', handlerScrollPictures);
-      hasMorePages = false;
-    }
-    pictures = data;
-    pictures.forEach(function(picture, index) {
-      var pictureNumber = PAGESIZE * page + index;
-      var newPicture = new Picture(picture, picturesContainer, elementToClone, pictureNumber);
-      picturesContainer.appendChild(newPicture.element);
-    });
-    gallery.setPictures(pictures, checkNumberPage);
-    handlerScrollPictures();
-    hiddenFilters.classList.remove('hidden');
-  };
+Pictures.prototype.picturesCallback = function(data) {
+  var checkNumberPage = true;
+  console.log(this);
+  if (this.page === 0) {
+    this.picturesContainer.innerHTML = '';
+    checkNumberPage = false;
+  }
+  if (data.length === 0 || data.length < this.PAGESIZE) {
+    window.removeEventListener('scroll', this.handlerScrollPictures);
+    this.hasMorePages = false;
+  }
+  this.pictures = data;
+  this.pictures.forEach(function(picture, index) {
+    var pictureNumber = this.PAGESIZE * this.page + index;
+    var newPicture = new Picture(picture, this.picturesContainer, this.elementToClone, this.pictureNumber);
+    this.picturesContainer.appendChild(newPicture.element);
+  });
+  gallery.setPictures(this.pictures, checkNumberPage);
+  this.handlerScrollPictures();
+  this.hiddenFilters.classList.remove('hidden');
+};
 
-  hiddenFilters.classList.add('hidden');
-  load(picturesUrl, {from: 0, to: PAGESIZE, filter: currentFilter}, picturesCallback);
-  hiddenFilters.addEventListener('change', new handlerChangeFilter().filter, true);
-  window.addEventListener('scroll', new handlerScrollPictures().scroll());
-  document.getElementById('filter-' + currentFilter).click();
+module.exports = function(){
+    return new Pictures();
 };
