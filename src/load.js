@@ -11,4 +11,5 @@ var load = function(url, options, callback) {
 
   xhr.send();
 };
+
 module.exports = load;

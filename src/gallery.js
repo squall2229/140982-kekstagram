@@ -18,13 +18,14 @@ Gallery.prototype.setPictures = function(pictures, check) {
 };
 
 Gallery.prototype.show = function(number) {
-  var self = this;
   this.elementClose.onclick = function() {
-    self.hide();
-  };
+    this.hide();
+  }.bind(this);
+
   this.elementPhoto.onclick = function() {
-    self.setActivePicture(self.activePicture + 1);
-  };
+    this.setActivePicture(this.activePicture + 1);
+  }.bind(this);
+
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
 };

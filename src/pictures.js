@@ -16,35 +16,40 @@ module.exports = function() {
   var currentFilter = localStorage.getItem('filter') || 'popular';
   var hasMorePages = true;
 
-  var loadPicturesNextPage = function() {
+  var loadPicturesNextPage = function() {};
+  var isTopReached = function() {};
+  var handlerScrollPictures = function() {};
+  var handlerChangeFilter = function() {};
+
+  loadPicturesNextPage.prototype.loadPage = function() {
     page = page + 1;
     load(picturesUrl, {from: page * PAGESIZE, to: page * PAGESIZE + PAGESIZE, filter: currentFilter}, picturesCallback);
   };
 
-  var isTopReached = function() {
+  isTopReached.prototype.position = function() {
     var lastImage = picturesContainer.querySelector('.picture:last-child');
     if (lastImage === null) {
       return false;
     }
     var positionImage = lastImage.getBoundingClientRect();
     return positionImage.top - window.innerHeight - 100 <= 0;
-  };
+  }
 
-  var handlerScrollPictures = function() {
-    if (isTopReached() && hasMorePages) {
+  handlerScrollPictures.prototype.scroll = function() {
+    if (new isTopReached().position() && hasMorePages) {
       clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(loadPicturesNextPage, 100);
+      scrollTimeout = setTimeout(new loadPicturesNextPage().loadPage(), 100);
     }
   };
 
-  var handlerChangeFilter = function(evt) {
+  handlerChangeFilter.prototype.filter = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
       hasMorePages = true;
       var elementValue = evt.target.value;
       localStorage.setItem('filter', elementValue);
       currentFilter = elementValue;
       page = 0;
-      window.addEventListener('scroll', handlerScrollPictures);
+      window.addEventListener('scroll', new handlerScrollPictures().scroll());
       load(picturesUrl, {from: 0, to: PAGESIZE, filter: elementValue}, picturesCallback);
     }
   };
@@ -72,7 +77,7 @@ module.exports = function() {
 
   hiddenFilters.classList.add('hidden');
   load(picturesUrl, {from: 0, to: PAGESIZE, filter: currentFilter}, picturesCallback);
-  hiddenFilters.addEventListener('change', handlerChangeFilter, true);
-  window.addEventListener('scroll', handlerScrollPictures);
+  hiddenFilters.addEventListener('change', new handlerChangeFilter().filter, true);
+  window.addEventListener('scroll', new handlerScrollPictures().scroll());
   document.getElementById('filter-' + currentFilter).click();
 };
