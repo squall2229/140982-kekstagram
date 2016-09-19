@@ -1,7 +1,7 @@
 'use strict';
 var Gallery = function() {
   this.pictures = [];
-  this.activePicture = null;
+  this.activePicture = 0;
   this.elementGallery = document.querySelector('.gallery-overlay');
   this.elementClose = document.querySelector('.gallery-overlay-close');
   this.elementPhoto = document.querySelector('.gallery-overlay-image');
@@ -18,14 +18,8 @@ Gallery.prototype.setPictures = function(pictures, check) {
 };
 
 Gallery.prototype.show = function(number) {
-  this.elementClose.onclick = function() {
-    this.hide();
-  }.bind(this);
-
-  this.elementPhoto.onclick = function() {
-    this.setActivePicture(this.activePicture + 1);
-  }.bind(this);
-
+  this.elementClose.onclick = this.hide.bind(this);
+  this.elementPhoto.onclick = this.setActivePicture(this.activePicture + 1).bind(this);
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
 };

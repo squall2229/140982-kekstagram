@@ -5,14 +5,14 @@ var gallery = require('./gallery');
 
 var Pictures = function() {
   this.picturesUrl = '/api/pictures';
-  this.pictures;
+  this.pictures = null;
   this.picturesContainer = document.querySelector('.pictures');
   this.templateElement = document.querySelector('#picture-template');
   this.elementToClone = this.templateElement.content.querySelector('.picture');
   this.hiddenFilters = document.querySelector('.filters');
   this.page = 0;
   this.PAGESIZE = 12;
-  this.scrollTimeout;
+  this.scrollTimeout = null;
   this.currentFilter = localStorage.getItem('filter') || 'popular';
   this.hasMorePages = true;
 
@@ -77,6 +77,6 @@ Pictures.prototype.picturesCallback = function(data) {
   this.hiddenFilters.classList.remove('hidden');
 };
 
-module.exports = function(){
-    return new Pictures();
+module.exports = function() {
+  return new Pictures();
 };
