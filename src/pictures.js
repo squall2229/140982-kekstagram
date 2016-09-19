@@ -13,7 +13,8 @@ module.exports = function() {
   var page = 0;
   var PAGESIZE = 12;
   var scrollTimeout;
-  var currentFilter;
+  var currentFilter = localStorage.getItem('filter') || 'popular';
+  var hasMorePages = true;
 
   var loadPicturesNextPage = function() {
     page = page + 1;
@@ -30,7 +31,7 @@ module.exports = function() {
   };
 
   var handlerScrollPictures = function() {
-    if (isTopReached()) {
+    if (isTopReached() && hasMorePages) {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(loadPicturesNextPage, 100);
     }
@@ -38,7 +39,9 @@ module.exports = function() {
 
   var handlerChangeFilter = function(evt) {
     if (evt.target.tagName.toLowerCase() === 'input') {
+      hasMorePages = true;
       var elementValue = evt.target.value;
+      localStorage.setItem('filter', elementValue);
       currentFilter = elementValue;
       page = 0;
       window.addEventListener('scroll', handlerScrollPictures);
@@ -54,6 +57,7 @@ module.exports = function() {
     }
     if (data.length === 0 || data.length < PAGESIZE) {
       window.removeEventListener('scroll', handlerScrollPictures);
+      hasMorePages = false;
     }
     pictures = data;
     pictures.forEach(function(picture, index) {
@@ -67,8 +71,8 @@ module.exports = function() {
   };
 
   hiddenFilters.classList.add('hidden');
-  load(picturesUrl, {from: 0, to: PAGESIZE}, picturesCallback);
-
+  load(picturesUrl, {from: 0, to: PAGESIZE, filter: currentFilter}, picturesCallback);
   hiddenFilters.addEventListener('change', handlerChangeFilter, true);
   window.addEventListener('scroll', handlerScrollPictures);
+  document.getElementById('filter-' + currentFilter).click();
 };
