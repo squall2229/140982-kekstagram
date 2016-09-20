@@ -12,7 +12,7 @@ var Picture = function(data, container, template, imageNumber) {
   var img = new Image(182, 182);
   img.src = data.url;
   img.onload = this.onload.bind(this);
-  img.error = this.error.bind(this);
+  img.onerror = this.error.bind(this);
 };
 
 Picture.prototype.onload = function() {

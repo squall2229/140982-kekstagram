@@ -17,17 +17,22 @@ Gallery.prototype.setPictures = function(pictures, check) {
   }
 };
 
+Gallery.prototype.setPicture = function() {
+  this.setActivePicture(this.activePicture + 1);
+};
+
 Gallery.prototype.show = function(number) {
-  this.elementClose.onclick = this.hide.bind(this);
-  this.elementPhoto.onclick = this.setActivePicture(this.activePicture + 1).bind(this);
+  this.elementClose.addEventListener('click', this.hide.bind(this));
+  this.elementPhoto.addEventListener('click', this.setPicture.bind(this));
+
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
 };
 
 Gallery.prototype.hide = function() {
   this.elementGallery.classList.add('invisible');
-  this.elementClose.onclick = null;
-  this.elementPhoto.onclick = null;
+  this.elementClose.removeEventListener('click', this.hide);
+  this.elementPhoto.removeEventListener('click', this.setPicture);
 };
 
 Gallery.prototype.setActivePicture = function(number) {
