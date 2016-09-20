@@ -6,7 +6,8 @@ var Picture = function(data, container, template, imageNumber) {
   this.element = template.cloneNode(true);
   var pictureLike = this.element.querySelector('.picture-likes');
   var pictureComment = this.element.querySelector('.picture-comments');
-  this.element.addEventListener('click', this.elementClick.bind(this));
+  this.elementClick = this.elementClick.bind(this);
+  this.element.addEventListener('click', this.elementClick);
   pictureLike.textContent = data.likes;
   pictureComment.textContent = data.comments;
   var img = new Image(182, 182);

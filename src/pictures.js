@@ -15,11 +15,11 @@ var Pictures = function() {
   this.scrollTimeout = null;
   this.currentFilter = localStorage.getItem('filter') || 'popular';
   this.hasMorePages = true;
-
+  this.handlerScrollPictures = this.handlerScrollPictures.bind(this);
   this.hiddenFilters.classList.add('hidden');
   load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: this.currentFilter}, this.picturesCallback.bind(this));
   document.getElementById('filter-' + this.currentFilter).click();
-  window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
+  window.addEventListener('scroll', this.handlerScrollPictures);
   this.hiddenFilters.addEventListener('change', this.handlerChangeFilter.bind(this), true);
 };
 
@@ -51,7 +51,8 @@ Pictures.prototype.handlerChangeFilter = function(evt) {
     localStorage.setItem('filter', elementValue);
     this.currentFilter = elementValue;
     this.page = 0;
-    window.addEventListener('scroll', this.handlerScrollPictures.bind(this));
+    this.handlerScrollPictures = this.handlerScrollPictures.bind(this);
+    window.addEventListener('scroll', this.handlerScrollPictures);
     load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: elementValue}, this.picturesCallback.bind(this));
   }
 };

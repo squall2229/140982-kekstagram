@@ -22,8 +22,10 @@ Gallery.prototype.setPicture = function() {
 };
 
 Gallery.prototype.show = function(number) {
-  this.elementClose.addEventListener('click', this.hide.bind(this));
-  this.elementPhoto.addEventListener('click', this.setPicture.bind(this));
+  this.hide = this.hide.bind(this);
+  this.setPicture = this.setPicture.bind(this);
+  this.elementClose.addEventListener('click', this.hide);
+  this.elementPhoto.addEventListener('click', this.setPicture);
 
   this.elementGallery.classList.remove('invisible');
   this.setActivePicture(number);
