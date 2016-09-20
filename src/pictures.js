@@ -51,7 +51,6 @@ Pictures.prototype.handlerChangeFilter = function(evt) {
     localStorage.setItem('filter', elementValue);
     this.currentFilter = elementValue;
     this.page = 0;
-    this.handlerScrollPictures = this.handlerScrollPictures.bind(this);
     window.addEventListener('scroll', this.handlerScrollPictures);
     load(this.picturesUrl, {from: 0, to: this.PAGESIZE, filter: elementValue}, this.picturesCallback.bind(this));
   }

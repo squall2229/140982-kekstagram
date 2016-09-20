@@ -7,6 +7,8 @@ var Gallery = function() {
   this.elementPhoto = document.querySelector('.gallery-overlay-image');
   this.elementLikes = document.querySelector('.likes-count');
   this.elementComments = document.querySelector('.comments-count');
+  this.hide = this.hide.bind(this);
+  this.setPicture = this.setPicture.bind(this);
 };
 
 Gallery.prototype.setPictures = function(pictures, check) {
@@ -22,8 +24,6 @@ Gallery.prototype.setPicture = function() {
 };
 
 Gallery.prototype.show = function(number) {
-  this.hide = this.hide.bind(this);
-  this.setPicture = this.setPicture.bind(this);
   this.elementClose.addEventListener('click', this.hide);
   this.elementPhoto.addEventListener('click', this.setPicture);
 
