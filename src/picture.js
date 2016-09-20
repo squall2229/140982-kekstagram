@@ -1,29 +1,28 @@
 'use strict';
 var gallery = require('./gallery.js');
 var Picture = function(data, container, template, imageNumber) {
-  // props
   this.imageNumber = imageNumber;
-  var self = this;
-  self.data = data;
-  self.element = template.cloneNode(true);
-  var pictureLike = self.element.querySelector('.picture-likes');
-  var pictureComment = self.element.querySelector('.picture-comments');
-  var imgPicture = self.element.querySelector('img');
-  // add listener
-  self.element.addEventListener('click', this.elementClick.bind(this));
-  // render picture
+  this.data = data;
+  this.element = template.cloneNode(true);
+  var pictureLike = this.element.querySelector('.picture-likes');
+  var pictureComment = this.element.querySelector('.picture-comments');
+  this.elementClick = this.elementClick.bind(this);
+  this.element.addEventListener('click', this.elementClick);
   pictureLike.textContent = data.likes;
   pictureComment.textContent = data.comments;
   var img = new Image(182, 182);
   img.src = data.url;
+  img.onload = this.onload.bind(this);
+  img.onerror = this.error.bind(this);
+};
 
-  img.onload = function() {
-    imgPicture.src = img.src;
-  };
+Picture.prototype.onload = function() {
+  var imgPicture = this.element.querySelector('img');
+  imgPicture.src = this.data.url;
+};
 
-  img.onerror = function() {
-    self.element.classList.add('picture-load-failure');
-  };
+Picture.prototype.error = function() {
+  this.element.classList.add('picture-load-failure');
 };
 
 Picture.prototype.elementClick = function(evt) {
